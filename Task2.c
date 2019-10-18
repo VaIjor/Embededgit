@@ -63,7 +63,7 @@
 
 #include <xc.h>
 #include <stdio.h>
-#include "lcd.h"
+
 
 int resultHigh = 0;
 int resultLow = 0;
