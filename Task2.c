@@ -1,3 +1,11 @@
+/*
+
+By: Joseph Morritt
+Module: Embeeeded Systerms 
+Task: 2
+
+
+*/
 
 #pragma config FEXTOSC = OFF    // External Oscillator mode Selection bits (Oscillator not enabled)
 #pragma config RSTOSC = HFINTOSC_64MHZ// Power-up default value for COSC bits (HFINTOSC with HFFRQ = 64 MHz and CDIV = 1:1)
@@ -67,33 +75,28 @@
 
 int resultHigh = 0;
 int resultLow = 0;
-int Light = 0;
-char LCDtext[16];
-int Rthr = -1;
-int i = 0;
-int Rmax = 1023;
-int LON[]= {0x00,0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};// could convert to decimal if wanted  
+int Light = 0;   // Varble wich contained the light level
 
+int LON[]= {0x00,0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};// theses hex value are used to turn on the LED
 
 int main(void) {
 
    // Pin init
-   TRISC = 0;
-   TRISD = 0;
+   TRISC = 0;      //Sets Port C as an output 
+   TRISD = 0;     //Sets Port D as an output 
+   TRISA = 0xFF; //Sets Port A as and input 
 
-   TRISA = 0xFF;
-
-   ANSELC = 0;
-   ANSELD = 0;
-   ANSELA = 0xFF;
+   ANSELC = 0;     //Set Port as Digital 
+   ANSELD = 0;    //Set Port as Digital 
+   ANSELA = 0xFF;//Set Port as Analog
 
    LATC = 0;
    LATD = 0;
-   LATE = 0; // Start with all pins driven LOW
+   LATE = 0; // Pins driven low
 
-   OSCCON1bits.NDIV = 0;
-   ADCON0bits.ADFM = 1; //right justify
-   ADCON0bits.ADCS = 0; //FRC Clock
+   OSCCON1bits.NDIV = 0;  //Digital occilator  
+   ADCON0bits.ADFM = 1;  //right justify
+   ADCON0bits.ADCS = 0; //FRC Clock 
 
    ADCLK = 4;
    ADPCH = 0x00; //RA0 is Analog channel
@@ -113,7 +116,7 @@ int main(void) {
            Light = ((resultHigh << 8 | resultLow))/128;
 
 
-           PORTC = LON[Light];
+           PORTC = LON[Light]; // Turn lights on depneding on ACD output
 
    }
 
